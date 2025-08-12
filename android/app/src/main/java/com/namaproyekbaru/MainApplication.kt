@@ -1,4 +1,4 @@
-package com.namaproyekbaru
+package com.loffeemobilenextgen
 
 import android.app.Application
 import com.facebook.react.PackageList
