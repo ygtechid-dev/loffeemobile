@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
 import { ref, set, get, update } from 'firebase/database';
-import { database } from '../../config/Fire';
 import Logo from '../../assets/logoloffee.png'
 import axios from 'axios';
 import FontAwesomeIcon5 from 'react-native-vector-icons/FontAwesome5'
@@ -10,6 +9,7 @@ import { Linking } from 'react-native';
 import { API_URL } from '../../context/APIUrl';
 // Import DatePicker
 import DatePicker from 'react-native-date-picker';
+import { database } from '../../config/Fire';
 
 const API_BASE_URL = `${API_URL}/api`; // Ganti dengan URL API Anda
 
@@ -78,15 +78,17 @@ const createWelcomeVoucher = async (uid, userData) => {
     let membershipType = userData.membership_status || 'Silver';
     
     if (membershipType === 'TemanLoffee') {
-      templatePath = 'welcome_voucher_template_teman_loffee';
+      templatePath = 'TemanLoffee';
     } else {
-      templatePath = 'welcome_voucher_template_silver'; // Default untuk Silver
+      templatePath = 'Silver'; // Default untuk Silver
     }
     
-    console.log(`📋 Using template path: ${templatePath}`);
+    console.log(`📋 Using template path:${templatePath}`);
     
+
     // 2. Get welcome voucher template from Firebase based on membership type
-    const templateRef = ref(database, templatePath);
+  const templateRef = ref(database, `welcome_voucher_template/${templatePath}`);
+  console.log('🔍 Path final yang diambil:', `welcome_voucher_template/${templatePath}`);
     const templateSnapshot = await get(templateRef);
     
     if (!templateSnapshot.exists()) {
@@ -142,7 +144,7 @@ const createWelcomeVoucher = async (uid, userData) => {
         endDate.setDate(endDate.getDate() + (template.validity_days || 30));
         return endDate.toISOString().split('T')[0];
       })(),
-      stock: 1, // Individual voucher
+      stock: 1, // Individual voucviher
       category: template.category || `Welcome New User - ${membershipType}`,
       image: template.image_url || null,
       is_active: true,
