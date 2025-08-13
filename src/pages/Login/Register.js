@@ -378,8 +378,8 @@ const handleRegister = async () => {
 
   // Validasi umur minimal 13 tahun
   const age = calculateAge(inputan.birthDate);
-  if (age < 13) {
-    Alert.alert('Error', 'Anda harus berusia minimal 13 tahun untuk mendaftar');
+  if (age < 10) {
+    Alert.alert('Error', 'Anda harus berusia minimal 10 tahun untuk mendaftar');
     setLoading(false);
     return;
   }
@@ -764,7 +764,7 @@ const getDataSetting = async () => {
             <View style={styles.ageWarning}>
               <FontAwesomeIcon5 name="exclamation-triangle" size={16} color="#e74c3c" />
               <Text style={styles.ageWarningText}>
-                Anda harus berusia minimal 13 tahun untuk mendaftar
+                Anda harus berusia minimal 10 tahun untuk mendaftar
               </Text>
             </View>
           )}
